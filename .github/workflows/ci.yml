@@ -49,11 +49,10 @@ jobs:
         run: npm run build
 
       - name: Coverage
-        if: matrix.os == 'ubuntu-latest' && matrix.node == 14
         uses: codecov/codecov-action@v3
 
       - name: Size
-        if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest' && matrix.node == 14
+        if: github.event_name == 'pull_request'
         uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -63,4 +62,15 @@ jobs:
 
       - name: Build APK
         working-directory: ./android
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug && cp app/build/outputs/apk/debug/app-debug.apk ../sreapp-${{ github.sha }}.apk
+
+      - name: Upload APK
+        if: github.ref == 'refs/heads/master'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "sreapp-${{ github.sha }}.apk"
+          target: "sre-app"

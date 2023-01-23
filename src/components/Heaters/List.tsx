@@ -38,7 +38,7 @@ const HeatersList: React.FC<HeatersListProps> = (
 };
 
 const asyncFetch = (apiClient: ApiClient): Promise<GetStatusResponse> => {
-  return apiClient.heaters.fetchStatusMock();
+  return apiClient.heaters.fetchStatus();
 };
 
 export default withAsyncComponent(asyncFetch)(HeatersList);

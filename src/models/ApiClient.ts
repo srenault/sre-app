@@ -1,6 +1,7 @@
 import React from "react";
 import { Base64 } from "js-base64";
 import HeatersClient from "./heaters/http/Client";
+import AppConfig from "./AppConfig";
 
 function generateBasicAuthToken(user: string, password: string) {
   return Base64.encode(`${user}:${password}`);
@@ -48,9 +49,9 @@ export class ApiClient {
   }
 }
 
-export const apiClient = new ApiClient("http://localhost/api", {
-  user: "sre",
-  password: "xxx",
+export const apiClient = new ApiClient(AppConfig.endpoint, {
+  user: AppConfig.username,
+  password: AppConfig.password,
 });
 
 export const ApiClientContext = React.createContext(apiClient);

@@ -15,7 +15,7 @@ const HeatersList: React.FC<HeatersListProps> = (
 ): JSX.Element => {
   const [channels, setChannels] = useState(props.data.channels);
 
-  const onChange = async (channelId: string, modeId: string) => {
+  const onChange = async (channelId: number, modeId: number) => {
     const response = await props.apiClient.heaters.updateChannel(
       channelId,
       modeId,
@@ -38,7 +38,7 @@ const HeatersList: React.FC<HeatersListProps> = (
 };
 
 const asyncFetch = (apiClient: ApiClient): Promise<GetStatusResponse> => {
-  return apiClient.heaters.fetchStatusMock();
+  return apiClient.heaters.fetchStatus();
 };
 
 export default withAsyncComponent(asyncFetch)(HeatersList);

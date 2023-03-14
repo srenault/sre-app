@@ -5,7 +5,7 @@ import type { Mode } from "@/models/heaters/Mode";
 type HeatersSelectModeProps = {
   currentMode: Mode;
   modes: Mode[];
-  onChange: (modeId: string) => void;
+  onChange: (modeId: number) => void;
   onClose: () => void;
   visible: boolean;
 };
@@ -17,11 +17,14 @@ const HeatersSelectMode = ({
   onClose,
   visible,
 }: HeatersSelectModeProps): JSX.Element => {
-  const columns = [modes.map(({ id, name }) => ({ label: name, value: id }))];
+  const columns = [
+    modes.map(({ id, name }) => ({ label: name, value: id.toString() })),
+  ];
 
   const onConfirm = (updatedValues: PickerValue[]) => {
     const updatedValue = updatedValues[0];
-    updatedValue && onChange(updatedValue);
+    const updatedMode = updatedValue && parseInt(updatedValue, 10);
+    updatedMode && onChange(updatedMode);
   };
 
   return (
@@ -34,7 +37,7 @@ const HeatersSelectMode = ({
         visible={visible}
         onConfirm={onConfirm}
         onClose={onClose}
-        value={[currentMode.id]}
+        value={[currentMode.id.toString()]}
       />
     </>
   );

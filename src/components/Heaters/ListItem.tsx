@@ -5,9 +5,9 @@ import SelectMode from "./SelectMode";
 
 type HeatersListItemProps = {
   label: string;
-  value: string;
+  value: number;
   modes: Mode[];
-  onChange: (modeId: string) => void;
+  onChange: (modeId: number) => void;
 };
 
 const HeatersListItem = ({

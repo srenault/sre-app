@@ -41,3 +41,4 @@ www/
 
 android/
 .metals/metals.mv.db
+.env.production

@@ -15,7 +15,7 @@ const HeatersList: React.FC<HeatersListProps> = (
 ): JSX.Element => {
   const [channels, setChannels] = useState(props.data.channels);
 
-  const onChange = async (channelId: string, modeId: string) => {
+  const onChange = async (channelId: number, modeId: number) => {
     const response = await props.apiClient.heaters.updateChannel(
       channelId,
       modeId,

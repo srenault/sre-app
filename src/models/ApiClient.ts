@@ -8,9 +8,9 @@ function generateBasicAuthToken(user: string, password: string) {
 }
 
 function request(
-  basicAuthToken: string,
-): (url: string, init: RequestInit) => Promise<Response> {
-  return (url, options = {}) => {
+  basicAuthToken: string | undefined,
+): (url: string, options?: RequestInit) => Promise<Response> {
+  return (url, opts = {}) => {
     const defaultOptions = (() => {
       if (basicAuthToken) {
         const headers = new Headers();
@@ -26,7 +26,7 @@ function request(
       }
     })();
 
-    return fetch(url, { ...defaultOptions, ...options });
+    return fetch(url, { ...defaultOptions, ...opts });
   };
 }
 

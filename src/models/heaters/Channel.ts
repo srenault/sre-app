@@ -2,9 +2,9 @@ import { z } from "zod";
 
 export const ChannelSchema = z
   .object({
-    id: z.string(),
+    id: z.number(),
     name: z.string(),
-    mode: z.string(),
+    mode: z.number(),
   })
   .transform((input) => ({
     id: input.id,

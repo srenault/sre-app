@@ -3,18 +3,18 @@ import { GetStatusResponseSchema } from "./GetStatusResponse";
 
 export default class HeatersClient {
   endpoint: string;
-  request: (url: string, init: RequestInit) => Promise<Response>;
+  request: (url: string, opts?: RequestInit) => Promise<Response>;
 
   constructor(
     endpoint: string,
-    request: (url: string, init: RequestInit) => Promise<Response>,
+    request: (url: string, opts?: RequestInit) => Promise<Response>,
   ) {
     this.endpoint = endpoint;
     this.request = request;
   }
 
   async fetchStatus(): Promise<GetStatusResponse> {
-    const res = await fetch(`${this.endpoint}/channels`);
+    const res = await this.request(`${this.endpoint}/channels`);
     if (!res.ok) {
       throw new Error(`Unable to fetch heaters status: ${res.status}`);
     }
@@ -24,8 +24,8 @@ export default class HeatersClient {
   }
 
   async updateChannel(
-    channelId: string,
-    modeId: string,
+    channelId: number,
+    modeId: number,
   ): Promise<GetStatusResponse> {
     const url = `${this.endpoint}/channels/${channelId}`;
     const options = {

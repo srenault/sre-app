@@ -2,6 +2,7 @@ import { Route, Router } from "wouter";
 import { useLocationProperty, navigate } from "wouter/use-location";
 import Home from "./screens/Home";
 import Heaters from "./screens/Heaters";
+import Shutters from "./screens/Shutters";
 import "./App.css";
 
 import { App as CapacitorApp } from "@capacitor/app";
@@ -28,6 +29,7 @@ function App(): JSX.Element {
       <Router hook={useHashLocation}>
         <Route path="/" component={Home}></Route>
         <Route path="/heaters" component={Heaters} />
+        <Route path="/shutters" component={Shutters} />
       </Router>
     </div>
   );

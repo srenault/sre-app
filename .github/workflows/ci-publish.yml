@@ -1,0 +1,75 @@
+name: ci-publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deployment:
+    environment: prod
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [16]
+
+    steps:
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/package-lock.json')) }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Types
+        run: npm run types
+
+      - name: Unit
+        run: npm run unit
+
+      - name: Create production env file
+        run: |
+          touch .env.production
+          echo SREAPP_API_ENDPOINT=${{ secrets.SREAPP_API_ENDPOINT }} >> .env.production
+          echo SREAPP_API_USERNAME=${{ secrets.SREAPP_API_USERNAME }} >> .env.production
+          echo SREAPP_API_PASSWORD=${{ secrets.SREAPP_API_PASSWORD }} >> .env.production
+
+      - name: Build
+        run: npm run build
+
+      # - name: Coverage
+      #   uses: codecov/codecov-action@v3
+
+      - name: Capacitor
+        run: npx cap add android & npx cap sync
+
+      - name: Build APK
+        working-directory: ./android
+        run: ./gradlew assembleDebug && cp app/build/outputs/apk/debug/app-debug.apk ../sreapp-${{ github.sha }}.apk
+
+      - name: Upload APK
+        if: github.ref == 'refs/heads/master'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "sreapp-${{ github.sha }}.apk"
+          target: "sre-app"

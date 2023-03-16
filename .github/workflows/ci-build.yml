@@ -1,15 +1,11 @@
-name: ci
+name: ci-build
 
 on:
   push:
-    branches:
-      - master
   pull_request:
-    branches:
-      - master
 
 jobs:
-  ci:
+  build:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -44,13 +40,6 @@ jobs:
       - name: Unit
         run: npm run unit
 
-      - name: Create production env file
-        run: |
-          touch .env.production
-          echo SREAPP_API_ENDPOINT=${{ secrets.SREAPP_API_ENDPOINT }} >> .env.production
-          echo SREAPP_API_USERNAME=${{ secrets.SREAPP_API_USERNAME }} >> .env.production
-          echo SREAPP_API_PASSWORD=${{ secrets.SREAPP_API_PASSWORD }} >> .env.production
-
       - name: Build
         run: npm run build
 
@@ -62,21 +51,3 @@ jobs:
         uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Capacitor
-        run: npx cap add android & npx cap sync
-
-      - name: Build APK
-        working-directory: ./android
-        run: ./gradlew assembleDebug && cp app/build/outputs/apk/debug/app-debug.apk ../sreapp-${{ github.sha }}.apk
-
-      - name: Upload APK
-        if: github.ref == 'refs/heads/master'
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_KEY }}
-          source: "sreapp-${{ github.sha }}.apk"
-          target: "sre-app"

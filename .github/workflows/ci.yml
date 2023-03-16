@@ -47,9 +47,9 @@ jobs:
       - name: Create production env file
         run: |
           touch .env.production
-          echo SREAPP_API_ENDPOINT=${{ secrets.SREAPP_API_ENDPOINT }} >> .env
-          echo SREAPP_API_USERNAME=${{ secrets.SREAPP_API_USERNAME }} >> .env
-          echo SREAPP_API_PASSWORD=${{ secrets.SREAPP_API_PASSWORD }} >> .env
+          echo SREAPP_API_ENDPOINT=${{ secrets.SREAPP_API_ENDPOINT }} >> .env.production
+          echo SREAPP_API_USERNAME=${{ secrets.SREAPP_API_USERNAME }} >> .env.production
+          echo SREAPP_API_PASSWORD=${{ secrets.SREAPP_API_PASSWORD }} >> .env.production
 
       - name: Build
         run: npm run build

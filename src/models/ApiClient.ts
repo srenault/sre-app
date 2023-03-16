@@ -1,6 +1,7 @@
 import React from "react";
 import { Base64 } from "js-base64";
 import HeatersClient from "./heaters/http/Client";
+import ShuttersClient from "./shutters/http/Client";
 import AppConfig from "./AppConfig";
 
 function generateBasicAuthToken(user: string, password: string) {
@@ -32,6 +33,7 @@ function request(
 
 export class ApiClient {
   heaters: HeatersClient;
+  shutters: ShuttersClient;
 
   constructor(baseUrl: string, basicAuth: { user: string; password: string }) {
     if (!baseUrl) {
@@ -44,6 +46,11 @@ export class ApiClient {
 
     this.heaters = new HeatersClient(
       `${baseUrl}/heaters`,
+      request(basicAuthToken),
+    );
+
+    this.shutters = new ShuttersClient(
+      `${baseUrl}/shutters`,
       request(basicAuthToken),
     );
   }

@@ -78,7 +78,7 @@
   "dependencies": {
     "@capacitor/android": "^4.6.1",
     "@capacitor/app": "^4.1.1",
-    "@capacitor/core": "^4.6.1",
+    "@capacitor/core": "^4.7.3",
     "antd-mobile": "^5.27.0",
     "js-base64": "^3.7.4",
     "react": "^18.2.0",

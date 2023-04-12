@@ -76,7 +76,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@capacitor/android": "^4.6.1",
+    "@capacitor/android": "^4.7.3",
     "@capacitor/app": "^4.1.1",
     "@capacitor/core": "^4.6.1",
     "antd-mobile": "^5.27.0",

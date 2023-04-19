@@ -41,7 +41,7 @@
     "test": "npm run lint && npm run types && npm run unit && npm run build && npm run size"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.7",
+    "@babel/core": "^7.21.4",
     "@capacitor/cli": "^4.7.3",
     "@size-limit/preset-small-lib": "^8.2.4",
     "@testing-library/react": "^13.4.0",

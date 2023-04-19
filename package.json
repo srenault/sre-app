@@ -79,7 +79,7 @@
     "@capacitor/android": "^4.7.3",
     "@capacitor/app": "^4.1.1",
     "@capacitor/core": "^4.6.1",
-    "antd-mobile": "^5.27.0",
+    "antd-mobile": "^5.29.1",
     "js-base64": "^3.7.4",
     "react": "^18.2.0",
     "react-async": "^10.0.1",

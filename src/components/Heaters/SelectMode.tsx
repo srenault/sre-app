@@ -23,7 +23,16 @@ const HeatersSelectMode = ({
 
   const onConfirm = (updatedValues: PickerValue[]) => {
     const updatedValue = updatedValues[0];
-    const updatedMode = updatedValue && parseInt(updatedValue, 10);
+
+    if (!updatedValue) {
+      return;
+    }
+
+    const updatedMode =
+      typeof updatedValue === "number"
+        ? updatedValue
+        : parseInt(updatedValue, 10);
+
     updatedMode && onChange(updatedMode);
   };
 

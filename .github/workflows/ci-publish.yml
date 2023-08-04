@@ -44,11 +44,15 @@ jobs:
         run: npm run unit
 
       - name: Create production env file
+        env:
+          SREAPP_API_ENDPOINT: ${{ secrets.SREAPP_API_ENDPOINT }}
+          SREAPP_API_USERNAME: ${{ secrets.SREAPP_API_USERNAME }}
+          SREAPP_API_PASSWORD: ${{ secrets.SREAPP_API_PASSWORD }}
         run: |
           touch .env.production
-          echo SREAPP_API_ENDPOINT=${{ secrets.SREAPP_API_ENDPOINT }} >> .env.production
-          echo SREAPP_API_USERNAME=${{ secrets.SREAPP_API_USERNAME }} >> .env.production
-          echo SREAPP_API_PASSWORD=${{ secrets.SREAPP_API_PASSWORD }} >> .env.production
+          echo SREAPP_API_ENDPOINT=$SREAPP_API_ENDPOINT >> .env.production
+          echo SREAPP_API_USERNAME=$SREAPP_API_USERNAME >> .env.production
+          echo SREAPP_API_PASSWORD=$SREAPP_API_PASSWORD >> .env.production
 
       - name: Build
         run: npm run build
